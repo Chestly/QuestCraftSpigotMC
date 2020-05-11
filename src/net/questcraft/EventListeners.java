@@ -2,11 +2,13 @@ package net.questcraft;
 
 import mcantigrief.java.ConfigReader;
 import mcantigrief.java.GuestTeamHandler;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.questcraft.config.ConfigUtil;
 import net.questcraft.servercontact.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,12 +43,12 @@ public class EventListeners implements Listener {
                 if (application.getStatus() >= 4) {
                     try {
                         this.guestTeamHandler.removeFromTeam(player);
-                    } catch (NotFound ex) {
-                    }
-                    playerList.put(player.getDisplayName(), player.getUniqueId());
-                    configReader.storeProp("playerList", stringUtil.mapToString(playerList));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r Your Application has been Accepted. &2STATUS: " + application.getStatus() + "/4"));
-                } else {
+                        playerList.put(player.getDisplayName(), player.getUniqueId().toString());
+                        configReader.storeProp("playerList", stringUtil.mapToString(playerList));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r Your Application has been Accepted. &2STATUS: " + application.getStatus() + "/4"));
+                    } catch (NotFound ex) {}
+
+                } else if (application.getStatus() < 4) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r Your Application is in review, Please Contact Administration for more info. &2STATUS: " + application.getStatus() + "/4"));
                 }
             }
@@ -54,14 +56,20 @@ public class EventListeners implements Listener {
                 configUtil.addAdmin(player);
             }
             MCReturnableLinks mcReturnableLinks = (MCReturnableLinks) serverContactUtil.getVerification(player.getDisplayName());
-            if (mcReturnableLinks.getApplication().startsWith("http://localhost:4567")) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft application: '&9" + mcReturnableLinks.getAppUser() + "&r' If this is you click here: &b&n" + mcReturnableLinks.getApplication()));
-
-            } else if (mcReturnableLinks.getAccount().startsWith("http://localhost:4567")) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft account '&9" + mcReturnableLinks.getAccountUser() + "&r' If this is you click here: &b&n" + mcReturnableLinks.getAccount()));
-
+            if (mcReturnableLinks.getApplication().startsWith("http://localhost:4567") || mcReturnableLinks.getApplication().startsWith("http://questcraft.net")) {
+                BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft application: '&9" + mcReturnableLinks.getAppUser() + "&r' If this is you click &6&lHere"));
+                text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getApplication()));
+                player.spigot().sendMessage(text);
             }
-        } catch (ContactError ex) { } catch (IOException ex) { } catch (ErrorClass ex) { }
+            if (mcReturnableLinks.getAccount().startsWith("http://localhost:4567") || mcReturnableLinks.getAccount().startsWith("http://questcraft.net")) {
+                BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft account: '&9" + mcReturnableLinks.getAccountUser() + "&r' If this is you click &6&lHere"));
+                text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getAccount()));
+                player.spigot().sendMessage(text);
+            }
+        } catch (ContactError ex) {
+        } catch (IOException ex) {
+        } catch (ErrorClass ex) {
+        }
 
     }
 }
