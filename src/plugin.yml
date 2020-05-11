@@ -1,0 +1,27 @@
+name: QuestCraftMC
+version: 1.0
+main: net.questcraft.QuestCraftMC
+author: chestly
+description: Questcraft's General Spigot plugin
+api-version: 1.15
+website: www.questcraft.net
+depend: [MCAntiGriefer]
+commands:
+  staff:
+    description: displays online staff members
+    usage: "Usage: /staff [name(optional)]"
+  apply:
+    description: allows you to see application or get link to create on online
+    usage: "Usage: /apply"
+  website:
+    description: returns the QuestCraft website
+    usage: "Usage: /website"
+  linkweb:
+    description: returns the QuestCraft website
+    usage: "Usage: /linkWeb"
+  addadmin:
+    description: returns the QuestCraft website
+    usage: "Usage: /setadmin [playerName]"
+  deladmin:
+    description: returns the QuestCraft website
+    usage: "Usage: /setadmin [playerName]"
