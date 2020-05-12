@@ -14,7 +14,12 @@ public class MCReturnableLinks implements WebServerReturnData {
     public void setAccountUser(String accountUser) {
         this.accountUser = accountUser;
     }
-
+    public boolean isNull() {
+        if (account == null && application == null) {
+            return true;
+        }
+        return false;
+    }
     public String getAppUser() {
         return appUser;
     }

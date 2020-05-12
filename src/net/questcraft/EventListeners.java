@@ -56,15 +56,18 @@ public class EventListeners implements Listener {
                 configUtil.addAdmin(player);
             }
             MCReturnableLinks mcReturnableLinks = (MCReturnableLinks) serverContactUtil.getVerification(player.getDisplayName());
-            if (mcReturnableLinks.getApplication().startsWith("http://localhost:4567") || mcReturnableLinks.getApplication().startsWith("http://questcraft.net")) {
-                BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft application: '&9" + mcReturnableLinks.getAppUser() + "&r' If this is you click &6&lHere"));
-                text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getApplication()));
-                player.spigot().sendMessage(text);
-            }
-            if (mcReturnableLinks.getAccount().startsWith("http://localhost:4567") || mcReturnableLinks.getAccount().startsWith("http://questcraft.net")) {
-                BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft account: '&9" + mcReturnableLinks.getAccountUser() + "&r' If this is you click &6&lHere"));
-                text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getAccount()));
-                player.spigot().sendMessage(text);
+
+            if (!mcReturnableLinks.isNull()) {
+                if (mcReturnableLinks.getApplication() != "" && mcReturnableLinks.getApplication() != null) {
+                    BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft application: '&9" + mcReturnableLinks.getAppUser() + "&r' If this is you click &6&lHere"));
+                    text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getApplication()));
+                    player.spigot().sendMessage(text);
+                }
+                if (mcReturnableLinks.getAccount() != "" && mcReturnableLinks.getAccount() != null) {
+                    BaseComponent text = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft] &rMinecraft Verification from QuestCraft account: '&9" + mcReturnableLinks.getAccountUser() + "&r' If this is you click &6&lHere"));
+                    text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, mcReturnableLinks.getAccount()));
+                    player.spigot().sendMessage(text);
+                }
             }
         } catch (ContactError ex) {
         } catch (IOException ex) {
