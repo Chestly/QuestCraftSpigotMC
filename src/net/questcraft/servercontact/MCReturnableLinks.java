@@ -1,6 +1,8 @@
 package net.questcraft.servercontact;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MCReturnableLinks implements WebServerReturnData {
     String account;
     String application;
@@ -14,6 +16,7 @@ public class MCReturnableLinks implements WebServerReturnData {
     public void setAccountUser(String accountUser) {
         this.accountUser = accountUser;
     }
+    @JsonIgnore
     public boolean isNull() {
         if (account == null && application == null) {
             return true;

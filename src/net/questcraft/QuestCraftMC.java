@@ -117,10 +117,13 @@ public class QuestCraftMC extends JavaPlugin {
                     }
                 } catch (IOException ex) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r &l&2Sorry!&r Weve had a internal Error, please contact Staff, Use &o&6/staff&r to do find online administration"));
+                    ex.printStackTrace();
                 } catch (ErrorClass ex) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r &l&2Sorry!&r Weve had a internal Error, please contact Staff, Use &o&6/staff&r to do find online administration"));
+                    ex.printStackTrace();
                 } catch (ContactError contactError) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4[Quest&6Craft]&r &l&2Sorry!&r Weve had a internal Error, please contact Staff, Use &o&6/staff&r to do find online administration"));
+                    contactError.printStackTrace();
                 }
                 break;
         }
